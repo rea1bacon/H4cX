@@ -1,0 +1,1 @@
+We can inject a breakline with encoded breakline like \n & \r (%0d or %0a)

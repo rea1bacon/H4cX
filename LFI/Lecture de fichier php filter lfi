@@ -1,0 +1,2 @@
+Lire un fihier php via LFI: 
+	php://filter/convert.base64-encode/resource=file
