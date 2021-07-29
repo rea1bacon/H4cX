@@ -2,7 +2,7 @@
 
 # How to use ?
 
-You must open a netcat listener before : nc -lvp Your listening port
+**You must open a netcat listener before : nc -lvp Your listening port**
 
 Then launch :
 
