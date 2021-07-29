@@ -37,7 +37,7 @@ for i in range(len(sys.argv[1:])):
 def search(ur,i,w):
 	print('Testing...')
 
-	inte=i/100
+	inte=i/1000
 	with open(w) as f:
 		lines = f.readlines()
 		
