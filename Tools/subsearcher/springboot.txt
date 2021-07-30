@@ -1,0 +1,7 @@
+dump 
+trace 
+logfile 
+shutdown 
+mappings 
+env 
+restart 

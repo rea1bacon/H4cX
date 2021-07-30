@@ -48,8 +48,8 @@ def search(ur,i,w):
 	u = ur
 
 	for i in range(len(lines)):
-		ext = lines[i].replace("\n","")
-		nurl = u + ext
+		ext = lines[i].replace("\n","").strip()
+		nurl = url + ext
 		resp = req.get(nurl)
 		if resp.status_code != 404:
 			print('[+]-One new url found :',nurl,'with response code ['+str(resp.status_code)+'] and SIZE :', len(resp.content))
