@@ -19,10 +19,10 @@ If we modify the algo from RS256 to HS256 and we use the public key as the secre
 HOW TO 
 
 Save the key in a key.pem file
-	❗❗❗ Respect this format
-	-----BEGIN PUBLIC KEY-----
-	key
-	-----END PUBLIC KEY----- 
+❗❗❗ Respect this format
+-----BEGIN PUBLIC KEY-----
+key
+-----END PUBLIC KEY----- 
 
 		import jwt
 		public = open('key.pem','r').read()
