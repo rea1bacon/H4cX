@@ -21,8 +21,8 @@ HOW TO
 Save the key in a key.pem file
 ❗❗❗ Respect this format
 
------BEGIN PUBLIC KEY-----
-key
+-----BEGIN PUBLIC KEY-----\n
+key\n
 -----END PUBLIC KEY----- 
 
 		import jwt
