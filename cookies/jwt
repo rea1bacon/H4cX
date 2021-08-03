@@ -1,4 +1,0 @@
-jwt cookies can be vulnerable if signature is not properly checked !
-If so, we can modify the alg to none and delete the signature and modify the payload.
-
-We can crack the signature too with jwt tool https://github.com/ticarpi/jwt_tool
