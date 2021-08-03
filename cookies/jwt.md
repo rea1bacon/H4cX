@@ -21,13 +21,13 @@ HOW TO
 Save the key in a key.pem file
 ❗❗❗ Respect this format
 
------BEGIN PUBLIC KEY-----\n
-key\n
------END PUBLIC KEY----- 
+	-----BEGIN PUBLIC KEY-----
+	key
+	-----END PUBLIC KEY----- 
 
-		import jwt
-		public = open('key.pem','r').read()
-		public = "\n".join(public.split('\n'))+"\n"
-		print(jwt.encode({"username":"admin"}, key=public, algorithm='HS256')) 
+	import jwt
+	public = open('key.pem','r').read()
+	public = "\n".join(public.split('\n'))+"\n"
+	print(jwt.encode({"username":"admin"}, key=public, algorithm='HS256')) 
 
 
