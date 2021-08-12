@@ -1,4 +1,4 @@
-### PHP  vuln
+# PHP  vuln
 
 ## PHP regex bypass
 
@@ -32,7 +32,8 @@
 		$___=$_(99).$_(97).$_(116)." .".$_(112).$_(97).$_(115).$_(115).$_(119).$_(100); //here cat .passwd
  		$__($___);
 
-- PHP object
+## PHP object
+
 
 Serialization in PHP
 To understand PHP object injections, you have to first understand how PHP serialize and deserialize objects.
@@ -42,35 +43,46 @@ serialize(): PHP object -> plain old string that represents the obj
 When you need to use that data, use unserialize() to unpack and get the underlying object.
 unserialize(): string containing object data -> original object
 For example, this code snippet will serialize the object “user”.
-	<?php
-	class User{
-	public $username;
-	public $status;
-	}
-	$user = new User;
-	$user->username = 'vickie';
-	$user->status = 'not admin';
-	echo serialize($user);
-	?>
+
+                <?php
+		class User{
+		public $username;
+		public $status;
+		}
+		$user = new User;
+		$user->username = 'vickie';
+		$user->status = 'not admin';
+		echo serialize($user);
+		?>
+	
 Run the code snippet, and you will get the serialized string that represents the “user” object.
 	O:4:"User":2:{s:8:"username";s:6:"vickie";s:6:"status";s:9:"not admin";}
 Serialized string structure
 Let’s break this serialized string down! The basic structure of a PHP serialized string is “data type: data”. For example, “b” represents a boolean.
-	b:THE_BOOLEAN;
+
+		b:THE_BOOLEAN;
+	
 “i” represents an integer.
-	i:THE_INTEGER;
+
+		i:THE_INTEGER;
 “d” represents a float.
-	d:THE_FLOAT;
+	
+		d:THE_FLOAT;
 “s” represents a string.
-	s:LENTH_OF_STRING:"ACTUAL_STRING";
+
+		s:LENTH_OF_STRING:"ACTUAL_STRING";
 “a” represents an array.
-	a:NUMBER_OF_ELEMENTS:{ELEMENTS}
+
+		a:NUMBER_OF_ELEMENTS:{ELEMENTS}
 And finally, “O” represents an object.
-	O:LENTH_OF_NAME:"CLASS_NAME":NUMBER_OF_PROPERTIES:{PROPERTIES}
+
+		O:LENTH_OF_NAME:"CLASS_NAME":NUMBER_OF_PROPERTIES:{PROPERTIES}
 So we can see our serialized string here represents an object of the class “User”. It has two properties. The first property has the name “username” and the value “vickie”. The second property has the name “status” and the value “not admin”.
+
 	O:4:"User":2:{s:8:"username";s:6:"vickie";s:6:"status";s:9:"not admin";}
 Deserializing
 When you are ready to operate on the object again, you can deserialize the string with unserialize().
+
 	<?php
 	class User{
 	public $username;
@@ -84,6 +96,7 @@ When you are ready to operate on the object again, you can deserialize the strin
 	var_dump($unserialized_data);
 	var_dump($unserialized_data["status"]);
 	?>
+	
 Unserialize() under the hood
 So how does unserialize() work under the hood? And why does it lead to vulnerabilities?
 What are PHP magic methods?
@@ -101,11 +114,14 @@ When you control a serialized object that is passed into unserialize(), you cont
 This is called a PHP object injection. PHP object injection can lead to variable manipulation, code execution, SQL injection, path traversal, or DoS.
 Controlling variable values
 One possible way of exploiting a PHP object injection vulnerability is variable manipulation. For example, you can mess with the values encoded in the serialized string.
+
 	O:4:"User":2:{s:8:"username";s:6:"vickie";s:6:"status";s:9:"not admin";}
 In this serialize string, you can try to change the value of “status” to “admin”, and see if the application grants you admin privileges.
+
 	O:4:"User":2:{s:8:"username";s:6:"vickie";s:6:"status";s:5:"admin";}
 Getting to RCE
 It’s even possible to achieve RCE using PHP object injection! For example, consider this vulnerable code snippet: (taken from https://www.owasp.org/index.php/PHP_Object_Injection)
+
 	class Example2
 	{
 	  private $hook;   
@@ -117,10 +133,12 @@ It’s even possible to achieve RCE using PHP object injection! For example, con
 	  }
 	}
 // some PHP code...
+
 	$user_data = unserialize($_COOKIE['data']);
 // some PHP code...
 You can achieve RCE using this deserialization flaw because a user-provided object is passed into unserialize. And the class Example2 has a magic function that runs eval() on user-provided input.
 To exploit this RCE, you simply have to set your data cookie to a serialized Example2 object with the hook property set to whatever PHP code you want. You can generate the serialized object using the following code snippet:
+
 	class Example2
 	{
 	   private $hook = "phpinfo();";
