@@ -1,7 +1,7 @@
 #How to use :
 #auto_reverse_shell.py LHOST LPORT name_of_the_file
 #The file is output in the /tmp dir but you can change it by modifying the script 
-
+#!/usr/bin/python3
 import sys
 import time
 
