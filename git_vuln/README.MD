@@ -15,3 +15,5 @@ git cat-file -p object-hash
 ```
 (or using git show object-hash)
 
+You can also use tools to recover the git folder. 
+Like gitools... 
