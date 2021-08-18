@@ -25,9 +25,10 @@ Save the key in a key.pem file
 	key
 	-----END PUBLIC KEY----- 
 
-	import jwt
-	public = open('key.pem','r').read()
-	public = "\n".join(public.split('\n'))+"\n"
-	print(jwt.encode({"username":"admin"}, key=public, algorithm='HS256')) 
-
+```python
+import jwt
+public = open('key.pem','r').read()
+public = "\n".join(public.split('\n'))+"\n"
+print(jwt.encode({"username":"admin"}, key=public, algorithm='HS256')) 
+```
 
