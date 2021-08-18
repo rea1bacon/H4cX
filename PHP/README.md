@@ -8,17 +8,19 @@
 
 - xor operation
 
-		import string
+```python
+import string
  
-		if __name__ == "__main__":
+	if __name__ == "__main__":
     		s = string.printable[62:62+32] ##    !"#$%&'()*+,-./:;<=>?@[\]^_\`{|}~
     		s1 = string.printable[:62]     ##    0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ
     		for i in s:
         		for j in s:
-            		x = chr(ord(i)^ord(j))
-            		if x in s1+'_':
-                		print '{0}\t{1}\t{2}'.format(i,j,x)
-
+            			x = chr(ord(i)^ord(j))
+            			if x in s1+'_':
+                			print '{0}\t{1}\t{2}'.format(i,j,x)
+```
+	
 	$_ = "@" ^ "!" //a
                             	
 - Convert to phpnonalpha
@@ -42,16 +44,20 @@ serialize(): PHP object -> plain old string that represents the obj
 When you need to use that data, use unserialize() to unpack and get the underlying object.
 unserialize(): string containing object data -> original object
 For example, this code snippet will serialize the object “user”.
-	<?php
+
+```php
+<?php
 	class User{
-	public $username;
-	public $status;
+		public $username;
+		public $status;
 	}
 	$user = new User;
 	$user->username = 'vickie';
 	$user->status = 'not admin';
 	echo serialize($user);
-	?>
+?>
+
+```
 Run the code snippet, and you will get the serialized string that represents the “user” object.
 	O:4:"User":2:{s:8:"username";s:6:"vickie";s:6:"status";s:9:"not admin";}
 Serialized string structure
@@ -71,10 +77,12 @@ So we can see our serialized string here represents an object of the class “Us
 	O:4:"User":2:{s:8:"username";s:6:"vickie";s:6:"status";s:9:"not admin";}
 Deserializing
 When you are ready to operate on the object again, you can deserialize the string with unserialize().
-	<?php
+
+```php
+<?php
 	class User{
-	public $username;
-	public $status;
+		public $username;
+		public $status;
 	}
 	$user = new User;
 	$user->username = 'vickie';
@@ -83,7 +91,9 @@ When you are ready to operate on the object again, you can deserialize the strin
 	$unserialized_data = unserialize($serialized_string);
 	var_dump($unserialized_data);
 	var_dump($unserialized_data["status"]);
-	?>
+?>
+```
+	
 Unserialize() under the hood
 So how does unserialize() work under the hood? And why does it lead to vulnerabilities?
 What are PHP magic methods?
@@ -106,7 +116,9 @@ In this serialize string, you can try to change the value of “status” to “
 	O:4:"User":2:{s:8:"username";s:6:"vickie";s:6:"status";s:5:"admin";}
 Getting to RCE
 It’s even possible to achieve RCE using PHP object injection! For example, consider this vulnerable code snippet: (taken from https://www.owasp.org/index.php/PHP_Object_Injection)
-	class Example2
+
+```php
+class Example2
 	{
 	  private $hook;   
 	  function __construct(){
@@ -119,6 +131,8 @@ It’s even possible to achieve RCE using PHP object injection! For example, con
 // some PHP code...
 	$user_data = unserialize($_COOKIE['data']);
 // some PHP code...
+```
+
 You can achieve RCE using this deserialization flaw because a user-provided object is passed into unserialize. And the class Example2 has a magic function that runs eval() on user-provided input.
 To exploit this RCE, you simply have to set your data cookie to a serialized Example2 object with the hook property set to whatever PHP code you want. You can generate the serialized object using the following code snippet:
 	class Example2
