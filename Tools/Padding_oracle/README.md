@@ -11,5 +11,5 @@ python3 main.py
 ## TO-DO
 
 - Add other methods (POST,cookies)
-- Add encryption (base64, upperhex,lowerhex)
+- Add post-encryption (base64, upperhex,lowerhex)
 - Add encryption tool (encrypt plaintext)
