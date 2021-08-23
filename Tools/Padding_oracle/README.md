@@ -1,6 +1,6 @@
 # Padding Oracle attack
 
-This script allow you to exploit padding vulnerabilitie to decrypt cyphertext.
+This script allows you to exploit padding vulnerabilitie to decrypt cyphertext.
 
 Just run :
 
