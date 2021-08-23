@@ -12,3 +12,4 @@ python3 main.py
 
 - Add other methods (POST,cookies)
 - Add encryption (base64, upperhex,lowerhex)
+- Add encryption tool (encrypt plaintext)
