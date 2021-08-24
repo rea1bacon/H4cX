@@ -1,3 +1,5 @@
+# How to get a clean reverse shell ?
+
 When obtaining a reverse shell with a Netcat listener, it is by default non-interactive and 
 you cannot pass keyboard shortcuts or special characters such as tab.
 
@@ -5,6 +7,7 @@ It is quite simple to work around. For starters, in your shell,
 run python -c 'import pty;pty.spawn("/bin/bash");' 
 python -c 'import pty; pty.spawn("/bin/sh")'
 
+```bash
 echo os.system('/bin/bash')
 
 /bin/bash -i
@@ -32,6 +35,8 @@ exec "/bin/sh"
 (From within nmap)
 
 !sh
+```
+
 to obtain a partially interactive bash shell.
 
 After that, do CTRL+Z to background Netcat. Enter stty raw -echo in your terminal, which will tell your terminal to pass keyboard shortcuts etc. through. 
