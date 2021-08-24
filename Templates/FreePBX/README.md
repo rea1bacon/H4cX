@@ -3,11 +3,13 @@
 ## Exploits
 
 ### Metasploit
+```
+  Name                                     Disclosure Date  Rank       Check  Description
 
-####  Name                                     Disclosure Date  Rank       Check  Description
-   -  ----                                     ---------------  ----       -----  -----------
+-  ----                                     ---------------  ----       -----  -----------
    0  exploit/unix/http/freepbx_callmenum      2012-03-20       manual     No     FreePBX 2.10.0 / 2.9.0 callmenum Remote Code Execution
    1  exploit/unix/webapp/freepbx_config_exec  2014-03-21       excellent  Yes    FreePBX config.php Remote Code Execution
+```
 
 ### RCE
 
@@ -35,12 +37,13 @@ default cred telnet : admin
    1  exploit/unix/webapp/freepbx_config_exec  2014-03-21       excellent  Yes    FreePBX config.php Remote Code Execution
 
 #### SIPVICIOUS
-
+```bash
 sudo svmap host
 
 svwar -e100-999 host
 
 sudo svcrack -u2000 -d /usr/share/wordlists/rockyou.txt host
+```
 
 ### SQLMAP
 
