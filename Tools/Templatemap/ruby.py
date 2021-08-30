@@ -3,7 +3,6 @@ class ruby:
         self.name = "ruby"
         self.exec = True
         self.download = True
-        self.upload = False
 
     def payload_test(self):
         return ["<%= 347 * 21 %>"]
