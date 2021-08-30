@@ -5,7 +5,7 @@ import requests as req
 class basic:
     def __init__(self):
         self.keyw =  ["handlebars","ruby","tornado","jinja","freemarker","mako","java","velocity","jade","twig"]
-        self.error = '''${{<%[%'"}}%\\'''
+        self.error = '''${ex()}{{<%[%'"}}%\\'''
         self.pay = ["${347*21}",
         "${{347*21}}",
         "#set ($run=347*21) $run",
@@ -52,8 +52,7 @@ ${x}''',
         for l in obj:
             a = l[0]
             code = a.status_code
-            if code == 500:
-                for i in self.keyw:
+            for i in self.keyw:
                     if i in a.text.lower():
                         return i
         return False
