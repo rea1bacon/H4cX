@@ -5,7 +5,7 @@ class jinja:
         self.download = False
 
     def payload_test(self):
-        return ["(347*21)"]
+        return ["(347*21)","{{ 347*21 }}"]
 
     def execu(self,cmd,index=-1):
         payload = [

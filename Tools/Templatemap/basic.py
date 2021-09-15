@@ -6,13 +6,14 @@ class basic:
     def __init__(self):
         self.keyw =  ["handlebars","ruby","tornado","jinja","freemarker","mako","java","velocity","jade","twig"]
         self.error = '''${ex()}{{<%[%'"}}%\\'''
-        self.pay = ["${347*21}",
+        self.pay = [
+        "(347*21)",
+        "{{ 347*21 }}",
+        "{{347*'21'}}",
+        "${347*21}",
         "${{347*21}}",
         "#set ($run=347*21) $run",
         "<%= 347 * 21 %>",
-        "{{ 347*21 }}",
-        "{{347*'21'}}",
-        "(347*21)",
         '''<%
 x=347*21
 %>
