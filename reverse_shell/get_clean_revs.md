@@ -4,10 +4,13 @@ When obtaining a reverse shell with a Netcat listener, it is by default non-inte
 you cannot pass keyboard shortcuts or special characters such as tab.
 
 It is quite simple to work around. For starters, in your shell, 
-run python -c 'import pty;pty.spawn("/bin/bash");' 
-python -c 'import pty; pty.spawn("/bin/sh")'
+run 
 
 ```bash
+python -c 'import pty;pty.spawn("/bin/bash");' 
+
+python -c 'import pty; pty.spawn("/bin/sh")'
+
 echo os.system('/bin/bash')
 
 /bin/bash -i
