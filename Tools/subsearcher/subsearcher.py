@@ -8,7 +8,7 @@ count=1
 url =""
 inter = 50
 word="common.txt"
-
+size = []
 try:
 	arg = sys.argv[1]
 except IndexError:
@@ -29,10 +29,13 @@ for i in range(len(sys.argv[1:])):
 			print("Interval must be an int."+sys.argv[count+1]+" is a "+type(sys.argv[count+1]))
 
 	if sys.argv[count]=="-w":
-                if type(sys.argv[count+1])== str:
-                        word=sys.argv[count+1]
-	count+=1
+		if type(sys.argv[count+1])== str:
+			word=sys.argv[count+1]
 
+	if sys.argv[count]=="-s":
+		if type(sys.argv[count+1])==str:
+			size.append(int(sys.argv[count+1]))
+	count+=1
 
 def search(ur,i,w):
 	print('Testing...')
@@ -51,7 +54,7 @@ def search(ur,i,w):
 		ext = lines[i].replace("\n","").strip()
 		nurl = url + ext
 		resp = req.get(nurl)
-		if resp.status_code != 404:
+		if resp.status_code != 404 and len(resp.content) not in size:
 			print('[+]-One new url found :',nurl,'with response code ['+str(resp.status_code)+'] and SIZE :', len(resp.content))
 		time.sleep(inte)
 
